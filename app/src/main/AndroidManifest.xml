@@ -55,7 +55,7 @@
             android:name="com.dicoding.submission_intermediate_storyapp2.ui.auth.LoginActivity"
             android:exported="true" />
         <activity
-            android:name="com.dicoding.submission_intermediate_storyapp2.MainActivity"
+            android:name="com.dicoding.submission_intermediate_storyapp2.ui.SpalshScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

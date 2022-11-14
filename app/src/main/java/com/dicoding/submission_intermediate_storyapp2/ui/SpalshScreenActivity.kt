@@ -1,4 +1,4 @@
-package com.dicoding.submission_intermediate_storyapp2
+package com.dicoding.submission_intermediate_storyapp2.ui
 
 import android.content.Intent
 import android.os.Build
@@ -8,12 +8,13 @@ import android.preference.PreferenceManager
 import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import com.dicoding.submission_intermediate_storyapp2.R
 import com.dicoding.submission_intermediate_storyapp2.constant.PREF_TOKEN
 import com.dicoding.submission_intermediate_storyapp2.ui.auth.LoginActivity
 import com.dicoding.submission_intermediate_storyapp2.ui.story.ListStoryActivity
 
 
-class MainActivity : AppCompatActivity() {
+class SpalshScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -24,13 +25,13 @@ class MainActivity : AppCompatActivity() {
         // Using handler with postDelayed called runnable run method
         {
 
-            val token = PreferenceManager.getDefaultSharedPreferences(this@MainActivity).getString(PREF_TOKEN, "")
+            val token = PreferenceManager.getDefaultSharedPreferences(this@SpalshScreenActivity).getString(PREF_TOKEN, "")
             if (token != null && token.isNotEmpty()){
-                val i = Intent(this@MainActivity, ListStoryActivity::class.java)
+                val i = Intent(this@SpalshScreenActivity, ListStoryActivity::class.java)
                 startActivity(i)
                 finish()
             } else {
-                val i = Intent(this@MainActivity, LoginActivity::class.java)
+                val i = Intent(this@SpalshScreenActivity, LoginActivity::class.java)
                 startActivity(i)
                 finish()
             }
