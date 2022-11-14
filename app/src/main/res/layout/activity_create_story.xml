@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.story.CreateStoryActivity">
+
+    <TextView
+        android:id="@+id/txt_label_deskripsi"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/title_label_deskripsi"
+        android:textAlignment="textStart"
+        android:textColor="@color/color_black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/ed_add_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_edit_text"
+        android:gravity="top|left"
+        android:hint="@string/title_hint_masukkan_deskripsi"
+        android:inputType="textMultiLine"
+        android:minLines="4"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/txt_label_deskripsi"
+        app:layout_constraintTop_toBottomOf="@+id/txt_label_deskripsi" />
+
+
+    <TextView
+        android:id="@+id/txt_label_photo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/title_label_upload_foto"
+        android:textAlignment="textStart"
+        android:textColor="@color/color_black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ed_add_description" />
+
+    <ImageView
+        android:id="@+id/img_add_story"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_placeholder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_label_photo"
+        android:contentDescription="@string/txt_gambar_story" />
+
+    <LinearLayout
+        android:id="@+id/ll_add_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_edit_text"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/img_add_story"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/img_add_story"
+        app:layout_constraintTop_toBottomOf="@+id/img_add_story">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_camera_alt_24" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/title_label_upload_foto"
+            android:textAlignment="textStart"
+            android:textColor="@color/color_black" />
+
+    </LinearLayout>
+
+
+    <com.dicoding.submission_intermediate_storyapp2.ui.custom_ui.CustomButton
+        android:id="@+id/button_add"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:enabled="false"
+        android:text="@string/txt_label_btn_tambah_story"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/img_add_story"
+        app:layout_constraintStart_toStartOf="@+id/img_add_story"
+        app:layout_constraintTop_toBottomOf="@+id/ll_add_image"
+        app:layout_constraintVertical_bias="1.0" />
+
+
+    <RelativeLayout
+        android:id="@+id/rlLoading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true"
+        android:elevation="99dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color_black_transparent" />
+
+        <ProgressBar
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.auth.LoginActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/img_story"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_story"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txt_title_email"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/txt_label_email"
+                android:alpha="0"
+                android:textAlignment="textStart"
+                android:textColor="@color/color_black"
+                app:layout_constraintEnd_toEndOf="@+id/txt_title_login"
+                app:layout_constraintStart_toStartOf="@+id/txt_title_login"
+                app:layout_constraintTop_toBottomOf="@+id/txt_title_login" />
+
+            <com.dicoding.submission_intermediate_storyapp2.ui.custom_ui.CustomEmailEditText
+                android:id="@+id/ed_login_email"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                android:alpha="0"
+                android:background="@drawable/bg_edit_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_title_email" />
+
+            <TextView
+                android:id="@+id/txt_title_password"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/txt_label_password"
+                android:alpha="0"
+                android:textAlignment="textStart"
+                android:textColor="@color/color_black"
+                app:layout_constraintEnd_toEndOf="@+id/txt_title_login"
+                app:layout_constraintStart_toStartOf="@+id/txt_title_login"
+                app:layout_constraintTop_toBottomOf="@+id/ed_login_email" />
+
+            <com.dicoding.submission_intermediate_storyapp2.ui.custom_ui.CustomPasswordEditText
+                android:id="@+id/ed_login_password"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_edit_text"
+                android:hint="@string/txt_hint_masukkan_password"
+                android:alpha="0"
+                app:layout_constraintEnd_toEndOf="@+id/ed_login_email"
+                app:layout_constraintStart_toStartOf="@+id/ed_login_email"
+                app:layout_constraintTop_toBottomOf="@+id/txt_title_password" />
+
+            <com.dicoding.submission_intermediate_storyapp2.ui.custom_ui.CustomButton
+                android:id="@+id/btn_sign_in"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/txt_label_btn_sign_in"
+                android:enabled="false"
+                android:alpha="0"
+                app:layout_constraintEnd_toEndOf="@+id/ed_login_password"
+                app:layout_constraintStart_toStartOf="@+id/ed_login_password"
+                app:layout_constraintTop_toBottomOf="@+id/ed_login_password" />
+
+            <TextView
+                android:id="@+id/txt_title_login"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/txt_sign_in_dan_nbagikan_ceritamu"
+                android:fontFamily="@font/work_sans_bold"
+                android:textSize="24sp"
+                android:alpha="0"
+                android:lineHeight="35dp"
+                android:textColor="@color/color_black"
+                app:layout_constraintEnd_toEndOf="@+id/ed_login_email"
+                app:layout_constraintStart_toStartOf="@+id/ed_login_email"
+                app:layout_constraintTop_toBottomOf="@+id/img_story" />
+
+            <TextView
+                android:id="@+id/txt_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="24dp"
+                android:fontFamily="@font/work_sans_bold"
+                android:text="@string/txt_registrasi"
+                android:textAlignment="center"
+                android:alpha="0"
+                android:textColor="@color/color_dark_grey"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/btn_sign_in"
+                app:layout_constraintStart_toStartOf="@+id/btn_sign_in"
+                app:layout_constraintTop_toBottomOf="@+id/txtAtau" />
+
+            <TextView
+                android:id="@+id/txtAtau"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/work_sans_light"
+                android:text="@string/txt_atau"
+                android:textAlignment="center"
+                android:alpha="0"
+                android:textColor="@color/color_dark_grey"
+                app:layout_constraintEnd_toEndOf="@+id/btn_sign_in"
+                app:layout_constraintStart_toStartOf="@+id/btn_sign_in"
+                app:layout_constraintTop_toBottomOf="@+id/btn_sign_in" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/rlLoading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color_black_transparent" />
+
+        <ProgressBar
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </RelativeLayout>
+
+
+
+</RelativeLayout>
