@@ -2,22 +2,28 @@ package com.dicoding.submission_intermediate_storyapp2.ui.story.viewmodel
 
 import android.app.Application
 import android.preference.PreferenceManager
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.dicoding.submission_intermediate_storyapp2.api.ApiConfig
 import com.dicoding.submission_intermediate_storyapp2.constant.PREF_TOKEN
+import com.dicoding.submission_intermediate_storyapp2.data.StoryRepository
 import com.dicoding.submission_intermediate_storyapp2.model.ResponseDetailStory
 import com.dicoding.submission_intermediate_storyapp2.model.ResponseGeneral
 import com.dicoding.submission_intermediate_storyapp2.model.ResponseListStory
+import com.dicoding.submission_intermediate_storyapp2.model.Story
 import com.dicoding.submission_intermediate_storyapp2.util.createPartFromString
 import com.dicoding.submission_intermediate_storyapp2.util.prepareFilePart
+import dagger.hilt.android.lifecycle.HiltViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
+import javax.inject.Inject
 
+@HiltViewModel
 @Suppress("DEPRECATION")
-class StoryViewModel(application: Application) : AndroidViewModel(application) {
+class StoryViewModel @Inject constructor(private val repository: StoryRepository) : ViewModel() {
 
     val listStoryData: MutableLiveData<ResponseListStory> by lazy {
         MutableLiveData<ResponseListStory>()
@@ -31,8 +37,7 @@ class StoryViewModel(application: Application) : AndroidViewModel(application) {
         MutableLiveData<ResponseDetailStory>()
     }
 
-    private val token = PreferenceManager.getDefaultSharedPreferences(application).getString(PREF_TOKEN, "")
-
+    val token = ""
 
     fun addStory(desc: String, file: File) {
         try {
@@ -75,7 +80,7 @@ class StoryViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun getAllStory() {
+    /*fun getAllStory() {
         try {
             listStoryData.value = null
             val bearer = "Bearer ${token as String}"
@@ -111,7 +116,9 @@ class StoryViewModel(application: Application) : AndroidViewModel(application) {
         }catch (e: Exception) {
             e.printStackTrace()
         }
-    }
+    }*/
+
+    fun getListStory(): LiveData<PagingData<Story>> = repository.getListStory().cachedIn(viewModelScope)
 
     fun getDetailStory(id: String) {
         try {

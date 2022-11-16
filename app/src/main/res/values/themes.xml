@@ -12,10 +12,10 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="android:textViewStyle">@style/LoraRegular</item>
+        <item name="android:textViewStyle">@style/WorkSansRegular</item>
     </style>
 
-    <style name="LoraRegular" parent="android:Widget.TextView">
+    <style name="WorkSansRegular" parent="android:Widget.TextView">
         <item name="android:fontFamily">@font/work_sans_regular</item>
     </style>
 

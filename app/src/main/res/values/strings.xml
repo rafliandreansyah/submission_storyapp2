@@ -36,4 +36,6 @@
     <string name="txt_camera">Camera</string>
     <string name="txt_gallery">Gallery</string>
     <string name="txt_logout">Logout</string>
+    <string name="retry">Retry</string>
+    <string name="error_get_data_please_try_again">Error get data please try again!</string>
 </resources>
