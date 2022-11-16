@@ -1,7 +1,6 @@
 package com.dicoding.submission_intermediate_storyapp2.ui.auth
 
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,9 +9,13 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.dicoding.submission_intermediate_storyapp2.databinding.ActivityRegisterBinding
 import com.dicoding.submission_intermediate_storyapp2.ui.auth.viewmodel.AuthViewModel
+import com.dicoding.submission_intermediate_storyapp2.util.Result
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
@@ -52,21 +55,24 @@ class RegisterActivity : AppCompatActivity() {
             return
         }
 
-        isLoading(true)
+        authViewModel.register(name, email, password).observe(this) { registerResult ->
 
-        authViewModel.register(name, email, password)
-
-        authViewModel.registerData.observe(this) { registerResponse ->
-            if (registerResponse != null) {
-                isLoading(false)
-                if (!registerResponse.error) {
-                    Toast.makeText(this, "Berhasil daftar", Toast.LENGTH_LONG).show()
+            when(registerResult) {
+                is Result.Loading -> isLoading(true)
+                is Result.Success -> {
+                    isLoading(false)
+                    Toast.makeText(this, "Success register", Toast.LENGTH_LONG).show()
                     finish()
                 }
-                else {
-                    Toast.makeText(this, registerResponse.message, Toast.LENGTH_LONG).show()
+                else -> {
+                    isLoading(false)
+                    if (registerResult.message.equals("Email is already taken")) {
+                        binding.edRegisterEmail.error = registerResult.message
+                    }
+                    Toast.makeText(this, registerResult.message ?: "error register", Toast.LENGTH_LONG).show()
                 }
             }
+
         }
     }
 
@@ -103,6 +109,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun isLoading(isL: Boolean) {
+        binding.btnRegister.isEnabled = !isL
         if (isL) {
             binding.rlLoading.visibility = View.VISIBLE
         } else {

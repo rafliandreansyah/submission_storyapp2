@@ -1,12 +1,12 @@
 package com.dicoding.submission_intermediate_storyapp2.ui.story
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.dicoding.submission_intermediate_storyapp2.databinding.ActivityDetailStoryBinding
 import com.dicoding.submission_intermediate_storyapp2.ui.auth.LoginActivity

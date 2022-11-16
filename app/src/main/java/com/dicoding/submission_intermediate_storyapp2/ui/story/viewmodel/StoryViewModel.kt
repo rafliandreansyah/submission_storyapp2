@@ -1,12 +1,9 @@
 package com.dicoding.submission_intermediate_storyapp2.ui.story.viewmodel
 
-import android.app.Application
-import android.preference.PreferenceManager
 import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.dicoding.submission_intermediate_storyapp2.api.ApiConfig
-import com.dicoding.submission_intermediate_storyapp2.constant.PREF_TOKEN
 import com.dicoding.submission_intermediate_storyapp2.data.StoryRepository
 import com.dicoding.submission_intermediate_storyapp2.model.ResponseDetailStory
 import com.dicoding.submission_intermediate_storyapp2.model.ResponseGeneral

@@ -4,7 +4,6 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.text.Editable
@@ -14,11 +13,17 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import com.dicoding.submission_intermediate_storyapp2.R
 import com.dicoding.submission_intermediate_storyapp2.constant.PREF_TOKEN
 import com.dicoding.submission_intermediate_storyapp2.databinding.ActivityLoginBinding
 import com.dicoding.submission_intermediate_storyapp2.ui.auth.viewmodel.AuthViewModel
 import com.dicoding.submission_intermediate_storyapp2.ui.story.ListStoryActivity
+import com.dicoding.submission_intermediate_storyapp2.util.Result
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
@@ -83,26 +88,43 @@ class LoginActivity : AppCompatActivity() {
     private fun login() {
         val email = binding.edLoginEmail.text.toString().trim()
         val password = binding.edLoginPassword.text.toString().trim()
-        binding.btnSignIn.isEnabled = false
-        authViewModel.login(email, password)
-        isLoading(true)
-        authViewModel.loginData.observe(this) { loginResponse ->
-            if (loginResponse != null) {
-                isLoading(false)
-                binding.btnSignIn.isEnabled = true
-                if (!loginResponse.error) {
+
+        authViewModel.login(email, password).observe(this) { loginResult ->
+
+            when(loginResult) {
+                is Result.Loading -> {
+                    isLoading(true)
+                }
+                is Result.Success -> {
+                    isLoading(false)
+                    val token = loginResult.data?.loginResult?.token
+                    if (token.isNullOrBlank()) {
+                        Toast.makeText(this@LoginActivity, resources.getString(R.string.login_failed), Toast.LENGTH_SHORT).show()
+                        return@observe
+                    }
                     PreferenceManager.getDefaultSharedPreferences(this@LoginActivity)
                         .edit()
-                        .putString(PREF_TOKEN, loginResponse.loginResult?.token)
+                        .putString(PREF_TOKEN, token)
                         .apply()
                     val intent = Intent(this@LoginActivity, ListStoryActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)
+                    finish()
                 }
-                else {
-                    Toast.makeText(this, loginResponse.message, Toast.LENGTH_LONG).show()
+                else -> {
+                    isLoading(false)
+
+                    if (loginResult.message.equals("User not found")) {
+                        binding.edLoginEmail.error = loginResult.message
+
+                    } else if (loginResult.message.equals("Invalid password")) {
+                        binding.edLoginPassword.error = loginResult.message
+                    }
+                    Toast.makeText(this@LoginActivity, loginResult.message ?: resources.getString(R.string.login_failed), Toast.LENGTH_SHORT).show()
+
                 }
             }
+
         }
     }
 
@@ -124,6 +146,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun isLoading(isL: Boolean) {
+        binding.btnSignIn.isEnabled = !isL
         if (isL) {
             binding.rlLoading.visibility = View.VISIBLE
         } else {

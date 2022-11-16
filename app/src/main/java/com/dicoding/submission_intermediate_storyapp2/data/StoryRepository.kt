@@ -8,7 +8,6 @@ import androidx.paging.PagingData
 import androidx.paging.liveData
 import com.dicoding.submission_intermediate_storyapp2.api.ApiService
 import com.dicoding.submission_intermediate_storyapp2.model.Story
-import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 

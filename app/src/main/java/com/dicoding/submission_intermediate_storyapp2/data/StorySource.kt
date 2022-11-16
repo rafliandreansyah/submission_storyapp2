@@ -5,12 +5,9 @@ import android.preference.PreferenceManager
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.dicoding.submission_intermediate_storyapp2.R
 import com.dicoding.submission_intermediate_storyapp2.api.ApiService
 import com.dicoding.submission_intermediate_storyapp2.constant.PREF_TOKEN
-import com.dicoding.submission_intermediate_storyapp2.model.ResponseListStory
 import com.dicoding.submission_intermediate_storyapp2.model.Story
-import javax.inject.Inject
 
 class StorySource(private val apiService: ApiService, context: Context): PagingSource<Int, Story>() {
 

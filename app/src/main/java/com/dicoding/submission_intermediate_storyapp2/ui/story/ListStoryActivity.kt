@@ -1,20 +1,20 @@
 package com.dicoding.submission_intermediate_storyapp2.ui.story
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log
-import android.view.*
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.submission_intermediate_storyapp2.R
-import com.dicoding.submission_intermediate_storyapp2.constant.PREF_TOKEN
 import com.dicoding.submission_intermediate_storyapp2.databinding.ActivityListStoryBinding
-import com.dicoding.submission_intermediate_storyapp2.model.Story
 import com.dicoding.submission_intermediate_storyapp2.ui.auth.LoginActivity
 import com.dicoding.submission_intermediate_storyapp2.ui.story.adapter.LoadingStateAdapter
 import com.dicoding.submission_intermediate_storyapp2.ui.story.adapter.StoryAdapter

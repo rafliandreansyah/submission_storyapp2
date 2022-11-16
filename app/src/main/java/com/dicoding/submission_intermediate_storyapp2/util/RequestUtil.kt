@@ -1,5 +1,7 @@
 package com.dicoding.submission_intermediate_storyapp2.util
 
+import com.dicoding.submission_intermediate_storyapp2.model.ErrorData
+import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -21,4 +23,14 @@ fun prepareFilePart(partName: String, file: File): MultipartBody.Part {
 
     // MultipartBody.Part is used to send also the actual file name
     return  MultipartBody.Part.createFormData(partName, file.name, requestFile)
+}
+
+fun convertErrorData(errorData: String): ErrorData{
+    return try {
+        val gson = Gson()
+        gson.fromJson(errorData, ErrorData::class.java)
+    }catch (e: Exception) {
+        e.printStackTrace()
+        ErrorData(true, null)
+    }
 }
