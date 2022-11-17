@@ -27,10 +27,6 @@ class StoryViewModel @Inject constructor(private val repository: StoryRepository
         MutableLiveData<ResponseGeneral>()
     }
 
-    val detailStoryData: MutableLiveData<ResponseDetailStory> by lazy {
-        MutableLiveData<ResponseDetailStory>()
-    }
-
     val token = ""
 
     fun addStory(desc: String, file: File) {
@@ -78,44 +74,7 @@ class StoryViewModel @Inject constructor(private val repository: StoryRepository
 
     fun getListStoryLocation(): LiveData<Result<ResponseListStory>> = repository.getListStoryLocation()
 
-    fun getDetailStory(id: String) {
-        try {
-            detailStoryData.value = null
-            val bearer = "Bearer ${token as String}"
+    fun getDetailStory(id: String): LiveData<Result<ResponseDetailStory>> = repository.getDetailStory(id)
 
-            ApiConfig.getApiService().getDetailStory(bearer, id).enqueue(object: Callback<ResponseDetailStory>{
-                override fun onResponse(
-                    call: Call<ResponseDetailStory>,
-                    response: Response<ResponseDetailStory>
-                ) {
-                    if (response.isSuccessful) {
-                        if (response.body()?.error == false) {
-                            detailStoryData.postValue(response.body())
-                        }
-                        else {
-                            if (response.body()?.message != null && response.body()!!.message.isNotEmpty()) {
-                                detailStoryData.postValue(ResponseDetailStory(true, response.message(), null))
-                            } else {
-                                detailStoryData.postValue(ResponseDetailStory(true, "error get data", null))
-                            }
-                        }
-                    } else if (response.code() == 401) {
-                        detailStoryData.postValue(ResponseDetailStory(true, "unauthorized", null))
-                    } else {
-                        detailStoryData.postValue(ResponseDetailStory(true, "error get data", null))
-                    }
-                }
-
-                override fun onFailure(call: Call<ResponseDetailStory>, t: Throwable) {
-                    detailStoryData.postValue(ResponseDetailStory(true, "error get data", null))
-                }
-
-            })
-
-        }catch (e: Exception) {
-            e.printStackTrace()
-            detailStoryData.postValue(ResponseDetailStory(true, "error get data", null))
-        }
-    }
 
 }

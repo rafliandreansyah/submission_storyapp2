@@ -10,6 +10,7 @@ import androidx.paging.PagingData
 import androidx.paging.liveData
 import com.dicoding.submission_intermediate_storyapp2.api.ApiService
 import com.dicoding.submission_intermediate_storyapp2.constant.PREF_TOKEN
+import com.dicoding.submission_intermediate_storyapp2.model.ResponseDetailStory
 import com.dicoding.submission_intermediate_storyapp2.model.ResponseListStory
 import com.dicoding.submission_intermediate_storyapp2.model.Story
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -57,6 +58,38 @@ class StoryRepository @Inject constructor(
                 }
 
                 override fun onFailure(call: Call<ResponseListStory>, t: Throwable) {
+                    data.postValue(Result.Error(t.message.toString(), null))
+                }
+
+            })
+        }catch (e: Exception) {
+            e.printStackTrace()
+            data.postValue(Result.Error("error convert data", null))
+        }
+
+
+        return data
+    }
+
+    fun getDetailStory(id: String): LiveData<Result<ResponseDetailStory>> {
+        val data: MutableLiveData<Result<ResponseDetailStory>> = MutableLiveData()
+
+        try {
+            apiService.getDetailStory(authorization, id).enqueue(object: Callback<ResponseDetailStory>{
+                override fun onResponse(
+                    call: Call<ResponseDetailStory>,
+                    response: Response<ResponseDetailStory>
+                ) {
+                    if (response.isSuccessful) {
+                        data.postValue(Result.Success(response.body() as ResponseDetailStory))
+                    }
+                    else {
+                        val errorData = response.errorBody()?.string()?.let { convertErrorData(it) }
+                        data.postValue(Result.Error(errorData?.message ?: "error get data", response.code()))
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseDetailStory>, t: Throwable) {
                     data.postValue(Result.Error(t.message.toString(), null))
                 }
 
