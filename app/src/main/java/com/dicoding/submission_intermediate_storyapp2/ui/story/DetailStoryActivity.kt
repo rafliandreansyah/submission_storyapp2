@@ -12,8 +12,8 @@ import com.bumptech.glide.Glide
 import com.dicoding.submission_intermediate_storyapp2.databinding.ActivityDetailStoryBinding
 import com.dicoding.submission_intermediate_storyapp2.ui.auth.LoginActivity
 import com.dicoding.submission_intermediate_storyapp2.ui.story.viewmodel.StoryViewModel
-import com.dicoding.submission_intermediate_storyapp2.util.changeFormatDate
 import com.dicoding.submission_intermediate_storyapp2.util.Result
+import com.dicoding.submission_intermediate_storyapp2.util.changeFormatDate
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

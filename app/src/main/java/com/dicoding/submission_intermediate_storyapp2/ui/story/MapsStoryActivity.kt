@@ -1,25 +1,24 @@
 package com.dicoding.submission_intermediate_storyapp2.ui.story
 
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.dicoding.submission_intermediate_storyapp2.R
 import com.dicoding.submission_intermediate_storyapp2.databinding.ActivityMapsStoryBinding
 import com.dicoding.submission_intermediate_storyapp2.ui.story.viewmodel.StoryViewModel
-
+import com.dicoding.submission_intermediate_storyapp2.util.Result
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.AndroidEntryPoint
-import com.dicoding.submission_intermediate_storyapp2.util.Result
-import com.google.android.gms.maps.model.LatLngBounds
 
 @AndroidEntryPoint
 class MapsStoryActivity : AppCompatActivity(), OnMapReadyCallback {

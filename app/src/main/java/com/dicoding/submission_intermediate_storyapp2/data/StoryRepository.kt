@@ -11,15 +11,19 @@ import androidx.paging.liveData
 import com.dicoding.submission_intermediate_storyapp2.api.ApiService
 import com.dicoding.submission_intermediate_storyapp2.constant.PREF_TOKEN
 import com.dicoding.submission_intermediate_storyapp2.model.ResponseDetailStory
+import com.dicoding.submission_intermediate_storyapp2.model.ResponseGeneral
 import com.dicoding.submission_intermediate_storyapp2.model.ResponseListStory
 import com.dicoding.submission_intermediate_storyapp2.model.Story
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
 import com.dicoding.submission_intermediate_storyapp2.util.Result
 import com.dicoding.submission_intermediate_storyapp2.util.convertErrorData
+import com.dicoding.submission_intermediate_storyapp2.util.createPartFromString
+import com.dicoding.submission_intermediate_storyapp2.util.prepareFilePart
+import dagger.hilt.android.qualifiers.ApplicationContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
+import javax.inject.Inject
 
 class StoryRepository @Inject constructor(
     private val apiService: ApiService,
@@ -99,6 +103,38 @@ class StoryRepository @Inject constructor(
             data.postValue(Result.Error("error convert data", null))
         }
 
+
+        return data
+    }
+
+    fun createStory(desc: String, file: File): LiveData<Result<ResponseGeneral>> {
+        val data: MutableLiveData<Result<ResponseGeneral>> = MutableLiveData()
+        try {
+            val description = createPartFromString(desc)
+            val storyFile = prepareFilePart("photo", file)
+            apiService.addStory(authorization, description, storyFile).enqueue(object: Callback<ResponseGeneral> {
+                override fun onResponse(
+                    call: Call<ResponseGeneral>,
+                    response: Response<ResponseGeneral>
+                ) {
+                    if (response.isSuccessful) {
+                        data.postValue(Result.Success(response.body() as ResponseGeneral))
+                    }
+                    else {
+                        val errorData = response.errorBody()?.string()?.let { convertErrorData(it) }
+                        data.postValue(Result.Error(errorData?.message ?: "error get data", response.code()))
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseGeneral>, t: Throwable) {
+                    data.postValue(Result.Error(t.message.toString(), null))
+                }
+
+            })
+        }catch (e: Exception) {
+            e.printStackTrace()
+            data.postValue(Result.Error("error convert data", null))
+        }
 
         return data
     }

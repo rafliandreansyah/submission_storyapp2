@@ -26,11 +26,15 @@ import com.dicoding.submission_intermediate_storyapp2.databinding.BottomDialogCh
 import com.dicoding.submission_intermediate_storyapp2.ui.auth.LoginActivity
 import com.dicoding.submission_intermediate_storyapp2.ui.camerax.CameraXActivity
 import com.dicoding.submission_intermediate_storyapp2.ui.story.viewmodel.StoryViewModel
+import com.dicoding.submission_intermediate_storyapp2.util.Result
 import com.dicoding.submission_intermediate_storyapp2.util.reduceFileImage
 import com.dicoding.submission_intermediate_storyapp2.util.uriToFile
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 
+
+@AndroidEntryPoint
 class CreateStoryActivity : AppCompatActivity() {
 
     companion object {
@@ -110,7 +114,6 @@ class CreateStoryActivity : AppCompatActivity() {
         }
 
         binding.edAddDescription.addTextChangedListener(watcher())
-        statusUpload()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -153,34 +156,34 @@ class CreateStoryActivity : AppCompatActivity() {
         }
 
         isLoading(true)
-        storyViewModel.addStory(description, imgFile as File)
+        storyViewModel.createStory(description, imgFile as File).observe(this) { responseGeneralResult ->
 
-    }
-
-    private fun statusUpload(){
-        storyViewModel.addStoryData.observe(this) { responseGeneral ->
-            if (responseGeneral != null) {
-                isLoading(false)
-                if (!responseGeneral.error) {
+            when(responseGeneralResult) {
+                is Result.Loading -> {
+                    isLoading(true)
+                }
+                is Result.Success -> {
+                    isLoading(false)
                     val intent = Intent(this, ListStoryActivity::class.java)
-                    intent.putExtra("reload", true)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)
                     finish()
                 }
-                else {
-                    if (responseGeneral.message.equals("unauthorized")) {
+                else -> {
+                    isLoading(false)
+                    if (responseGeneralResult.code == 401) {
                         Toast.makeText(this@CreateStoryActivity, "Your token expired, please relogin!", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this@CreateStoryActivity, LoginActivity::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
                         finish()
                     }
-                    else {
-                        Toast.makeText(this@CreateStoryActivity, responseGeneral.message, Toast.LENGTH_SHORT).show()
-                    }
+                    Toast.makeText(this@CreateStoryActivity, responseGeneralResult.message, Toast.LENGTH_SHORT).show()
                 }
             }
+
         }
+
     }
 
     private fun startCameraX(){
@@ -242,6 +245,7 @@ class CreateStoryActivity : AppCompatActivity() {
     }
 
     private fun isLoading(isL: Boolean) {
+        binding.buttonAdd.isEnabled = !isL
         if (isL) {
             binding.rlLoading.visibility = View.VISIBLE
         } else {

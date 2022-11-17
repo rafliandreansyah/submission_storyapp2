@@ -1,12 +1,9 @@
 package com.dicoding.submission_intermediate_storyapp2.data
 
-import android.content.Context
-import android.preference.PreferenceManager
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.dicoding.submission_intermediate_storyapp2.api.ApiService
-import com.dicoding.submission_intermediate_storyapp2.constant.PREF_TOKEN
 import com.dicoding.submission_intermediate_storyapp2.model.Story
 
 class StorySource(private val apiService: ApiService, private val authorization: String): PagingSource<Int, Story>() {

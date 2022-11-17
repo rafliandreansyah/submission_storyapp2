@@ -65,18 +65,6 @@ class ListStoryActivity : AppCompatActivity() {
         })
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        if (intent.extras != null){
-            val isRestart = intent.getBooleanExtra("reload", false)
-            if (isRestart) {
-                isLoading(true)
-                //storyViewModel.getAllStory()
-            }
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_logout, menu)
         return super.onCreateOptionsMenu(menu)
