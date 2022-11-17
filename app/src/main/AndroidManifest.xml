@@ -4,10 +4,12 @@
     package="com.dicoding.submission_intermediate_storyapp2">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-feature android:name="android.hardware.camera" />
+
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".MainApplication"
@@ -20,6 +22,26 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Submission_intermediate_1"
         tools:targetApi="31">
+
+        <!--
+             TODO: Before you run your application, you need a Google Maps API key.
+
+             To get one, follow the directions here:
+
+                https://developers.google.com/maps/documentation/android-sdk/get-api-key
+
+             Once you have your API key (it starts with "AIza"), define a new property in your
+             project's local.properties file (e.g. MAPS_API_KEY=Aiza...), and replace the
+             "YOUR_API_KEY" string in this file with "${MAPS_API_KEY}".
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBYYja_z7Q7ik-8lJAJjOub_KVhVXd7oD8" />
+
+        <activity
+            android:name=".ui.story.MapsStoryActivity"
+            android:exported="false"
+            android:label="@string/title_activity_maps_story" />
         <activity
             android:name="com.dicoding.submission_intermediate_storyapp2.ui.camerax.CameraXActivity"
             android:exported="false">
@@ -28,21 +50,21 @@
                 android:value="" />
         </activity>
         <activity
-            android:name="com.dicoding.submission_intermediate_storyapp2.ui.story.CreateStoryActivity"
+            android:name=".ui.story.CreateStoryActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="com.dicoding.submission_intermediate_storyapp2.ui.story.DetailStoryActivity"
+            android:name=".ui.story.DetailStoryActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="com.dicoding.submission_intermediate_storyapp2.ui.story.ListStoryActivity"
+            android:name=".ui.story.ListStoryActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

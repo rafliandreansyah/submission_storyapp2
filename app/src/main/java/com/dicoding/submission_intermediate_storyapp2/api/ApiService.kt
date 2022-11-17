@@ -18,6 +18,9 @@ interface ApiService {
     @GET("stories")
     suspend fun getListStory(@Header("Authorization") authorization: String, @Query("page") page: Int, @Query("size") size: Int): ResponseListStory
 
+    @GET("stories")
+    fun getListStory(@Header("Authorization") authorization: String, @Query("location") location: Int): Call<ResponseListStory>
+
     @GET("stories/{id}")
     fun getDetailStory(@Header("Authorization") authorization: String, @Path("id") id: String): Call<ResponseDetailStory>
 

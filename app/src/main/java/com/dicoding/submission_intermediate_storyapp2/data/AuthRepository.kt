@@ -69,7 +69,7 @@ class AuthRepository @Inject constructor(private val apiService: ApiService) {
                 }
 
                 override fun onFailure(call: Call<ResponseGeneral>, t: Throwable) {
-                    TODO("Not yet implemented")
+                    data.postValue(Result.Error(t.message.toString(), null))
                 }
 
             })

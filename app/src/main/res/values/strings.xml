@@ -38,4 +38,6 @@
     <string name="txt_logout">Logout</string>
     <string name="retry">Retry</string>
     <string name="error_get_data_please_try_again">Error get data please try again!</string>
+    <string name="title_activity_maps_story">MapsStoryActivity</string>
+    <string name="txt_map_view_story">Map view story</string>
 </resources>

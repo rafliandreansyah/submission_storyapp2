@@ -17,14 +17,11 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 import javax.inject.Inject
+import com.dicoding.submission_intermediate_storyapp2.util.Result
 
 @HiltViewModel
 @Suppress("DEPRECATION")
 class StoryViewModel @Inject constructor(private val repository: StoryRepository) : ViewModel() {
-
-    val listStoryData: MutableLiveData<ResponseListStory> by lazy {
-        MutableLiveData<ResponseListStory>()
-    }
 
     val addStoryData: MutableLiveData<ResponseGeneral> by lazy {
         MutableLiveData<ResponseGeneral>()
@@ -77,45 +74,9 @@ class StoryViewModel @Inject constructor(private val repository: StoryRepository
         }
     }
 
-    /*fun getAllStory() {
-        try {
-            listStoryData.value = null
-            val bearer = "Bearer ${token as String}"
-            ApiConfig.getApiService().getListStory(bearer).enqueue(object : Callback<ResponseListStory>{
-                override fun onResponse(
-                    call: Call<ResponseListStory>,
-                    response: Response<ResponseListStory>
-                ) {
-                    if (response.isSuccessful) {
-                        if (response.body()?.error == false) {
-                            listStoryData.postValue(response.body())
-                        }
-                        else {
-                            if (response.body()?.message != null && response.body()!!.message.isNotEmpty()) {
-                                listStoryData.postValue(ResponseListStory(null, true, response.message()))
-                            } else {
-                                listStoryData.postValue(ResponseListStory(null, true, "error get data"))
-                            }
-                        }
-                    } else if (response.code() == 401) {
-                        listStoryData.postValue(ResponseListStory(null, true, "unauthorized"))
-                    } else {
-                        listStoryData.postValue(ResponseListStory(null, true, "error get data"))
-                    }
-                }
-
-                override fun onFailure(call: Call<ResponseListStory>, t: Throwable) {
-                    t.printStackTrace()
-                    listStoryData.postValue(ResponseListStory(null, true, "error get data"))
-                }
-
-            })
-        }catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }*/
-
     fun getListStory(): LiveData<PagingData<Story>> = repository.getListStory().cachedIn(viewModelScope)
+
+    fun getListStoryLocation(): LiveData<Result<ResponseListStory>> = repository.getListStoryLocation()
 
     fun getDetailStory(id: String) {
         try {

@@ -28,6 +28,18 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabMaps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:backgroundTint="@color/white"
+        android:contentDescription="@string/txt_map_view_story"
+        app:layout_constraintBottom_toTopOf="@+id/fabAddStory"
+        app:layout_constraintEnd_toEndOf="@+id/fabAddStory"
+        app:srcCompat="@drawable/ic_map"
+        app:tint="@color/color_primary" />
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddStory"

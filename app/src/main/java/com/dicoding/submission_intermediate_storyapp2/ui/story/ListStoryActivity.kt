@@ -51,6 +51,10 @@ class ListStoryActivity : AppCompatActivity() {
             startActivity(Intent(this, CreateStoryActivity::class.java))
         }
 
+        binding.fabMaps.setOnClickListener{
+            startActivity(Intent(this, MapsStoryActivity::class.java))
+        }
+
         storyAdapter.setOnItemClicked(object : StoryAdapter.OnItemClickListener{
             override fun onItemClicked(id: String) {
                 val intent = Intent(this@ListStoryActivity, DetailStoryActivity::class.java)
