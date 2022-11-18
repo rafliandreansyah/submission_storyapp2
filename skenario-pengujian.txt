@@ -1,0 +1,26 @@
+Skenario pengujian
+
+
+AuthViewModelTest
+    1. Login
+
+        + Skenario Positif
+            - Memastikan mengembalikan Result.Success
+            - Memastikan data tidak mengembalikan null
+            - Memastikan mengembalikan data sesuai dummy response
+
+        - Skenario Negatif
+            - Memastikan mengembalikan Result.Error
+            - Memastikan data tidak mengembalikan null
+            - Memastikan mengembalikan data sesuai dummy response
+
+    2. Registrasi
+        + Skenario Positif
+            - Memastikan mengembalikan Result.Success
+            - Memastikan data tidak mengembalikan null
+            - Memastikan mengembalikan data sesuai dummy response
+
+        - Skenario Negatif
+            - Memastikan mengembalikan Result.Error
+            - Memastikan data tidak mengembalikan null
+            - Memastikan mengembalikan data sesuai dummy response
