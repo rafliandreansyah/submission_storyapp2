@@ -24,3 +24,17 @@ fun generateErrorLoginResponse(): LoginResponse {
         message = "Invalid password"
     )
 }
+
+fun generateSuccessRegisterResponse(): ResponseGeneral {
+    return ResponseGeneral(
+        error = false,
+        message = "User created"
+    )
+}
+
+fun generateErrorRegisterResponse(): ResponseGeneral {
+    return ResponseGeneral(
+        error = true,
+        message = "Email is already taken"
+    )
+}

@@ -4,16 +4,14 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import com.dicoding.submission_intermediate_storyapp2.data.AuthRepository
 import com.dicoding.submission_intermediate_storyapp2.model.LoginResponse
-import com.dicoding.submission_intermediate_storyapp2.util.generateErrorLoginResponse
-import com.dicoding.submission_intermediate_storyapp2.util.generateSuccessLoginResponse
+import com.dicoding.submission_intermediate_storyapp2.model.ResponseGeneral
+import com.dicoding.submission_intermediate_storyapp2.util.*
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
-import com.dicoding.submission_intermediate_storyapp2.util.Result
-import com.dicoding.submission_intermediate_storyapp2.util.getOrAwaitValue
 import org.junit.Rule
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`
@@ -26,17 +24,23 @@ class AuthViewModelTest {
 
     @Mock
     private lateinit var authRepository: AuthRepository
-
     private lateinit var authViewModel: AuthViewModel
+
     private val dummySuccessResponse = generateSuccessLoginResponse()
     private val dummyWrongPasswordResponse = generateErrorLoginResponse()
 
+    private val dummySuccessRegisterResponse = generateSuccessRegisterResponse()
+    private val dummyErrorRegisterResponse = generateErrorRegisterResponse()
 
     companion object{
-        private const val CORRECT_EMAIL = "rafli@gmail.com"
-        private const val CORRECT_PASSWORD = "secured"
+        private const val LOGIN_CORRECT_EMAIL = "rafli@gmail.com"
+        private const val LOGIN_CORRECT_PASSWORD = "secured"
+        private const val LOGIN_WRONG_PASSWORD = "not secured"
 
-        private const val WRONG_PASSWORD = "not secured"
+        private const val REGISTER_NAME = "Rafli"
+        private const val REGISTER_EMAIL = "rafli@gmail.com"
+        private const val REGISTER_EXISTING_EMAIL = "rafli123@gmail.com"
+        private const val REGISTER_PASSWORD = "password"
     }
 
     @Before
@@ -46,32 +50,64 @@ class AuthViewModelTest {
 
     @Test
     fun `When post login it returns Result Success and success response data`() {
-        val actualValues = MutableLiveData<Result<LoginResponse>>()
-        actualValues.value = Result.Success(data = dummySuccessResponse)
+        val expectedValues = MutableLiveData<Result<LoginResponse>>()
+        expectedValues.value = Result.Success(data = dummySuccessResponse)
 
-        `when`(authRepository.login(CORRECT_EMAIL, CORRECT_PASSWORD)).thenReturn(actualValues)
+        `when`(authRepository.login(LOGIN_CORRECT_EMAIL, LOGIN_CORRECT_PASSWORD)).thenReturn(expectedValues)
 
-        val actualResponse = authViewModel.login(CORRECT_EMAIL, CORRECT_PASSWORD).getOrAwaitValue()
+        val actualResponse = authViewModel.login(LOGIN_CORRECT_EMAIL, LOGIN_CORRECT_PASSWORD).getOrAwaitValue()
 
-        Mockito.verify(authRepository).login(CORRECT_EMAIL, CORRECT_PASSWORD)
+        Mockito.verify(authRepository).login(LOGIN_CORRECT_EMAIL, LOGIN_CORRECT_PASSWORD)
         assertNotNull(actualResponse)
         assertTrue(actualResponse is Result.Success)
-        assertEquals(actualResponse, actualValues.value)
+        assertEquals(expectedValues.value, actualResponse)
     }
 
     @Test
     fun `When post login it return Result Error and wrong password message`() {
-        val actualValues = MutableLiveData<Result<LoginResponse>>()
-        actualValues.value = Result.Error(message = generateErrorLoginResponse().message, code = 401)
+        val expectedValues = MutableLiveData<Result<LoginResponse>>()
+        expectedValues.value = Result.Error(code = 401, data = dummyWrongPasswordResponse)
 
-        `when`(authRepository.login(CORRECT_EMAIL, WRONG_PASSWORD)).thenReturn(actualValues)
+        `when`(authRepository.login(LOGIN_CORRECT_EMAIL, LOGIN_WRONG_PASSWORD)).thenReturn(expectedValues)
 
-        val actualResponse = authViewModel.login(CORRECT_EMAIL, WRONG_PASSWORD).getOrAwaitValue()
-        Mockito.verify(authRepository).login(CORRECT_EMAIL, WRONG_PASSWORD)
+        val actualResponse = authViewModel.login(LOGIN_CORRECT_EMAIL, LOGIN_WRONG_PASSWORD).getOrAwaitValue()
+        Mockito.verify(authRepository).login(LOGIN_CORRECT_EMAIL, LOGIN_WRONG_PASSWORD)
 
         assertNotNull(actualResponse)
         assertTrue(actualResponse is Result.Error)
-        assertEquals(actualResponse.message,  (actualValues.value as Result.Error).message)
+        assertEquals((expectedValues.value as Result.Error).data?.message, actualResponse.data?.message)
+
+    }
+
+    @Test
+    fun `When register then return Result success and success response data`() {
+        val expectedValues = MutableLiveData<Result<ResponseGeneral>>()
+        expectedValues.value = Result.Success(dummySuccessRegisterResponse)
+
+        `when`(authRepository.register(REGISTER_NAME, REGISTER_EMAIL, REGISTER_PASSWORD)).thenReturn(expectedValues)
+
+        val actualResponse = authViewModel.register(REGISTER_NAME, REGISTER_EMAIL, REGISTER_PASSWORD).getOrAwaitValue()
+        Mockito.verify(authRepository).register(REGISTER_NAME, REGISTER_EMAIL, REGISTER_PASSWORD)
+
+        assertNotNull(actualResponse)
+        assertTrue(actualResponse is Result.Success)
+        assertEquals(expectedValues.value, actualResponse)
+
+    }
+
+    @Test
+    fun `When register then return Result Error and email already exist`() {
+        val expectedValues = MutableLiveData<Result<ResponseGeneral>>()
+        expectedValues.value = Result.Error(code = 400, data = dummyErrorRegisterResponse)
+
+        `when`(authRepository.register(REGISTER_NAME, REGISTER_EXISTING_EMAIL, REGISTER_PASSWORD)).thenReturn(expectedValues)
+
+        val actualResponse = authViewModel.register(REGISTER_NAME, REGISTER_EXISTING_EMAIL, REGISTER_PASSWORD).getOrAwaitValue()
+        Mockito.verify(authRepository).register(REGISTER_NAME, REGISTER_EXISTING_EMAIL, REGISTER_PASSWORD)
+
+        assertNotNull(actualResponse)
+        assertTrue(actualResponse is Result.Error)
+        assertEquals((expectedValues.value as Result.Error).data?.message, actualResponse.data?.message)
 
     }
 

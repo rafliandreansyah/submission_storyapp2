@@ -1,7 +1,7 @@
 Skenario pengujian
 
 
-AuthViewModelTest
+AuthViewModelTest{
     1. Login
 
         + Skenario Positif
@@ -24,3 +24,9 @@ AuthViewModelTest
             - Memastikan mengembalikan Result.Error
             - Memastikan data tidak mengembalikan null
             - Memastikan mengembalikan data sesuai dummy response
+}
+
+
+StoryViewModelTest{
+
+}

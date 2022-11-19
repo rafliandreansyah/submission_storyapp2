@@ -57,18 +57,18 @@ class StoryRepository @Inject constructor(
                     }
                     else {
                         val errorData = response.errorBody()?.string()?.let { convertErrorData(it) }
-                        data.postValue(Result.Error(errorData?.message ?: "error get data", response.code()))
+                        data.postValue(Result.Error(errorData?.message ?: "error get data", response.code(), null))
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseListStory>, t: Throwable) {
-                    data.postValue(Result.Error(t.message.toString(), null))
+                    data.postValue(Result.Error(t.message.toString(), null, null))
                 }
 
             })
         }catch (e: Exception) {
             e.printStackTrace()
-            data.postValue(Result.Error("error convert data", null))
+            data.postValue(Result.Error("error convert data", null, null))
         }
 
 
@@ -89,18 +89,18 @@ class StoryRepository @Inject constructor(
                     }
                     else {
                         val errorData = response.errorBody()?.string()?.let { convertErrorData(it) }
-                        data.postValue(Result.Error(errorData?.message ?: "error get data", response.code()))
+                        data.postValue(Result.Error(errorData?.message ?: "error get data", response.code(), null))
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseDetailStory>, t: Throwable) {
-                    data.postValue(Result.Error(t.message.toString(), null))
+                    data.postValue(Result.Error(t.message.toString(), null, null))
                 }
 
             })
         }catch (e: Exception) {
             e.printStackTrace()
-            data.postValue(Result.Error("error convert data", null))
+            data.postValue(Result.Error("error convert data", null, null))
         }
 
 
@@ -122,18 +122,18 @@ class StoryRepository @Inject constructor(
                     }
                     else {
                         val errorData = response.errorBody()?.string()?.let { convertErrorData(it) }
-                        data.postValue(Result.Error(errorData?.message ?: "error get data", response.code()))
+                        data.postValue(Result.Error(errorData?.message ?: "error get data", response.code(), null))
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseGeneral>, t: Throwable) {
-                    data.postValue(Result.Error(t.message.toString(), null))
+                    data.postValue(Result.Error(t.message.toString(), null, null))
                 }
 
             })
         }catch (e: Exception) {
             e.printStackTrace()
-            data.postValue(Result.Error("error convert data", null))
+            data.postValue(Result.Error("error convert data", null, null))
         }
 
         return data

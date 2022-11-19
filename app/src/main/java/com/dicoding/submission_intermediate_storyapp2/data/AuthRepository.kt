@@ -28,18 +28,18 @@ class AuthRepository @Inject constructor(private val apiService: ApiService) {
                     }
                     else {
                         val errorData = response.errorBody()?.string()?.let { convertErrorData(it) }
-                        data.postValue(Result.Error(errorData?.message, response.code()))
+                        data.postValue(Result.Error(errorData?.message, response.code(), null))
                     }
                 }
 
                 override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                    data.postValue(Result.Error(t.message.toString(), null))
+                    data.postValue(Result.Error(t.message.toString(), null, null))
                 }
 
             })
         }catch (e: Exception) {
             e.printStackTrace()
-            data.postValue(Result.Error("error convert data", null))
+            data.postValue(Result.Error("error convert data", null, null))
         }
 
 
@@ -64,18 +64,18 @@ class AuthRepository @Inject constructor(private val apiService: ApiService) {
                     }
                     else {
                         val errorData = response.errorBody()?.let { convertErrorData(it.string()) }
-                        data.postValue(Result.Error(errorData?.message, response.code()))
+                        data.postValue(Result.Error(errorData?.message, response.code(), null))
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseGeneral>, t: Throwable) {
-                    data.postValue(Result.Error(t.message.toString(), null))
+                    data.postValue(Result.Error(t.message.toString(), null, null))
                 }
 
             })
         }catch (e: Exception) {
             e.printStackTrace()
-            data.postValue(Result.Error("error convert data", null))
+            data.postValue(Result.Error("error convert data", null, null))
         }
 
 
