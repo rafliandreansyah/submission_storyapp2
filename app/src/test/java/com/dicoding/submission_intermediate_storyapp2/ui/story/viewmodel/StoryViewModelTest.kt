@@ -7,6 +7,7 @@ import androidx.paging.*
 import androidx.recyclerview.widget.ListUpdateCallback
 import com.dicoding.submission_intermediate_storyapp2.data.StoryRepository
 import com.dicoding.submission_intermediate_storyapp2.model.ResponseGeneral
+import com.dicoding.submission_intermediate_storyapp2.model.ResponseListStory
 import com.dicoding.submission_intermediate_storyapp2.model.Story
 import com.dicoding.submission_intermediate_storyapp2.ui.story.adapter.StoryAdapter
 import com.dicoding.submission_intermediate_storyapp2.util.*
@@ -134,6 +135,43 @@ class StoryViewModelTest {
         assertTrue(actualValues is Result.Error)
         assertEquals((expectedValues.value as Result.Error).data?.message, actualValues.data?.message)
     }
+
+    @Test
+    fun `When get list story with lat lon return Result Success`(){
+        val dataDummy = generateSuccessDummyListStoryLocation()
+        val expectedValues = MutableLiveData<Result<ResponseListStory>>()
+        expectedValues.value = Result.Success(dataDummy)
+
+        `when`(storyRepository.getListStoryLocation()).thenReturn(expectedValues)
+
+        val actualValues = storyViewModel.getListStoryLocation().getOrAwaitValue()
+        Mockito.verify(storyRepository).getListStoryLocation()
+
+        assertNotNull(actualValues)
+        assertTrue(actualValues is Result.Success)
+        assertNotNull(actualValues.data?.listStory?.get(0)?.lat)
+        assertNotNull(actualValues.data?.listStory?.get(0)?.lon)
+        assertEquals((expectedValues.value as Result.Success).data?.listStory?.size, actualValues.data?.listStory?.size)
+        assertEquals((expectedValues.value as Result.Success).data?.listStory?.get(0), actualValues.data?.listStory?.get(0))
+    }
+
+    @Test
+    fun `When get list story with lat lon return Result Error`() {
+        val dataDummy = generateErrorDummyListStoryLocation()
+        val expectedValues = MutableLiveData<Result<ResponseListStory>>()
+        expectedValues.value = Result.Error(data = dataDummy, code = null)
+
+        `when`(storyRepository.getListStoryLocation()).thenReturn(expectedValues)
+
+        val actualValues = storyViewModel.getListStoryLocation().getOrAwaitValue()
+        Mockito.verify(storyRepository).getListStoryLocation()
+
+        assertNotNull(actualValues)
+        assertTrue(actualValues is Result.Error)
+        assertNull(actualValues.data?.listStory?.get(0)?.lat)
+        assertNull(actualValues.data?.listStory?.get(0)?.lon)
+    }
+
 }
 
 

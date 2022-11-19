@@ -50,5 +50,27 @@ StoryViewModelTest{
             - Memastikan data mengembalikan Result.Error
             - Memastikan data mengembalikan pesan error sesuai dummy response
 
+    3. Mengambil data list story dengan location
+        + Skenario positif
+            - Memastikan data tidak bernilai null
+            - Memastikan data mengembalikan Result.Success
+            - Memastikan data lokasi latitude dan longitude tidak bernilai null
+            - Memastikan data mengembalikan sesuai data dummy response
 
+        - Skenario Negatif
+            - Memastikan data tidak bernilai null
+            - Memastikan data mengembalikan Result.Error
+            - Memastikan data lokasi latitude dan longitude bernilai null
+
+    4. Mengambil detail story
+        + Skenario positif
+            - Memastikan data tidak bernilai null
+            - Memastikan data mengembalikan Result.Success
+            - Memastikan data mengembalikan sesuai data dummy Response
+
+        - Skenario Negatif
+            - Memastikan data tidak bernilai null
+            - Memastikan data mengembalikan Result.Error
+            - Memastikan data mengembalikan sesuai data dummy response
+            
 }
