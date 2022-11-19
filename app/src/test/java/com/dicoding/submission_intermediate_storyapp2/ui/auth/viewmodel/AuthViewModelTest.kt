@@ -26,11 +26,6 @@ class AuthViewModelTest {
     private lateinit var authRepository: AuthRepository
     private lateinit var authViewModel: AuthViewModel
 
-    private val dummySuccessResponse = generateSuccessLoginResponse()
-    private val dummyWrongPasswordResponse = generateErrorLoginResponse()
-
-    private val dummySuccessRegisterResponse = generateSuccessRegisterResponse()
-    private val dummyErrorRegisterResponse = generateErrorRegisterResponse()
 
     companion object{
         private const val LOGIN_CORRECT_EMAIL = "rafli@gmail.com"
@@ -50,6 +45,8 @@ class AuthViewModelTest {
 
     @Test
     fun `When post login it returns Result Success and success response data`() {
+        val dummySuccessResponse = generateSuccessLoginResponse()
+
         val expectedValues = MutableLiveData<Result<LoginResponse>>()
         expectedValues.value = Result.Success(data = dummySuccessResponse)
 
@@ -65,6 +62,8 @@ class AuthViewModelTest {
 
     @Test
     fun `When post login it return Result Error and wrong password message`() {
+        val dummyWrongPasswordResponse = generateErrorLoginResponse()
+
         val expectedValues = MutableLiveData<Result<LoginResponse>>()
         expectedValues.value = Result.Error(code = 401, data = dummyWrongPasswordResponse)
 
@@ -81,6 +80,8 @@ class AuthViewModelTest {
 
     @Test
     fun `When register then return Result success and success response data`() {
+        val dummySuccessRegisterResponse = generateSuccessRegisterResponse()
+
         val expectedValues = MutableLiveData<Result<ResponseGeneral>>()
         expectedValues.value = Result.Success(dummySuccessRegisterResponse)
 
@@ -97,6 +98,8 @@ class AuthViewModelTest {
 
     @Test
     fun `When register then return Result Error and email already exist`() {
+        val dummyErrorRegisterResponse = generateErrorRegisterResponse()
+
         val expectedValues = MutableLiveData<Result<ResponseGeneral>>()
         expectedValues.value = Result.Error(code = 400, data = dummyErrorRegisterResponse)
 

@@ -16,7 +16,7 @@ import javax.inject.Inject
 class StoryAdapter @Inject constructor(): PagingDataAdapter<Story, StoryAdapter.StoryViewHolder>(DIFF_CALLBACK) {
 
     companion object{
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Story>(){
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Story>(){
             override fun areItemsTheSame(oldItem: Story, newItem: Story): Boolean {
                 return oldItem == newItem
             }

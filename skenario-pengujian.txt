@@ -28,5 +28,25 @@ AuthViewModelTest{
 
 
 StoryViewModelTest{
+    1. Mengambil Data List Story
+        + Skenario Positif
+            - Memastikan data mengembalikan Result.Success
+            - Memastikan data tidak bernilai null
+            - Memastikan data mengembalikan sesuai dummy response
 
+        - Skenario Negatif
+            - Memastikan data mengembalikan Result.Error
+            - Memastikan data tidak bernilai null
+            - Memastikan mengembalikan data sesuai dummy response
+
+    2. Membuat Story
+        + Skenario Positif
+            - Memastikan data tidak bernilai null
+            - Memastikan data memiliki panjang list yang sama dengan dummy response
+            - Memastikan data mengembalikan data yang sama dengan list dummy response
+            - Memastikan data pada index ke 0 mengembalikan sesuai dummy response index ke 0
+
+        - Skenario Negatif
+            - Memastikan mengembalikan data story kosong
+            - Memastikan mengembalikan data tidak mengembalikan sesuai dummy response dengan data story
 }
