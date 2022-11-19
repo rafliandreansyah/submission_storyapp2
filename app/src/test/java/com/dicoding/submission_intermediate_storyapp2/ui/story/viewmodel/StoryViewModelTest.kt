@@ -6,11 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.*
 import androidx.recyclerview.widget.ListUpdateCallback
 import com.dicoding.submission_intermediate_storyapp2.data.StoryRepository
+import com.dicoding.submission_intermediate_storyapp2.model.ResponseGeneral
 import com.dicoding.submission_intermediate_storyapp2.model.Story
 import com.dicoding.submission_intermediate_storyapp2.ui.story.adapter.StoryAdapter
-import com.dicoding.submission_intermediate_storyapp2.util.MainDispatcherRule
-import com.dicoding.submission_intermediate_storyapp2.util.generateSuccessDummyListStoryResponse
-import com.dicoding.submission_intermediate_storyapp2.util.getOrAwaitValue
+import com.dicoding.submission_intermediate_storyapp2.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -23,6 +22,8 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
+import org.junit.runner.Description
+import java.io.File
 
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
@@ -37,6 +38,12 @@ class StoryViewModelTest {
     @Mock
     private lateinit var storyRepository: StoryRepository
     private lateinit var storyViewModel: StoryViewModel
+    @Mock
+    private lateinit var file: File
+    companion object {
+        private const val desc = "desc"
+    }
+
 
     @Before
     fun setUp() {
@@ -94,6 +101,38 @@ class StoryViewModelTest {
         differ.submitData(actualValues)
         assertTrue(differ.snapshot().isEmpty())
         assertNotEquals(dummyResponseWithData, differ.snapshot())
+    }
+
+    @Test
+    fun `When create story return Result Success`() {
+        val dataDummy = generateSuccessDummyCreateStory()
+        val expectedValues = MutableLiveData<Result<ResponseGeneral>>()
+        expectedValues.value = Result.Success(dataDummy)
+
+        `when`(storyRepository.createStory(desc, file)).thenReturn(expectedValues)
+
+        val actualValues = storyViewModel.createStory(desc, file).getOrAwaitValue()
+        Mockito.verify(storyRepository).createStory(desc, file)
+
+        assertNotNull(actualValues)
+        assertTrue(actualValues is Result.Success)
+        assertEquals((expectedValues.value as Result.Success).data, actualValues.data)
+    }
+
+    @Test
+    fun `When create story then return Result Error`() {
+        val dataDummy = generateErrorDummyCreateStory()
+        val expectedValues = MutableLiveData<Result<ResponseGeneral>>()
+        expectedValues.value = Result.Error(data = dataDummy, code = 400)
+
+        `when`(storyRepository.createStory(desc, file)).thenReturn(expectedValues)
+
+        val actualValues = storyViewModel.createStory(desc, file).getOrAwaitValue()
+        Mockito.verify(storyRepository).createStory(desc, file)
+
+        assertNotNull(actualValues)
+        assertTrue(actualValues is Result.Error)
+        assertEquals((expectedValues.value as Result.Error).data?.message, actualValues.data?.message)
     }
 }
 

@@ -59,3 +59,18 @@ fun generateSuccessDummyListStoryResponse(): List<Story> {
     return listStory
 }
 
+fun generateSuccessDummyCreateStory(): ResponseGeneral {
+    return ResponseGeneral(
+        error = false,
+        message = "Story created successfully"
+    )
+}
+
+fun generateErrorDummyCreateStory(): ResponseGeneral {
+    return ResponseGeneral(
+        error = false,
+        message = "photo should be Readable"
+    )
+}
+
+
