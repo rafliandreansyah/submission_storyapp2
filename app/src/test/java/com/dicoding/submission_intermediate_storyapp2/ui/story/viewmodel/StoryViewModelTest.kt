@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.*
 import androidx.recyclerview.widget.ListUpdateCallback
 import com.dicoding.submission_intermediate_storyapp2.data.StoryRepository
+import com.dicoding.submission_intermediate_storyapp2.model.ResponseDetailStory
 import com.dicoding.submission_intermediate_storyapp2.model.ResponseGeneral
 import com.dicoding.submission_intermediate_storyapp2.model.ResponseListStory
 import com.dicoding.submission_intermediate_storyapp2.model.Story
@@ -23,7 +24,6 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
-import org.junit.runner.Description
 import java.io.File
 
 @ExperimentalCoroutinesApi
@@ -43,6 +43,8 @@ class StoryViewModelTest {
     private lateinit var file: File
     companion object {
         private const val desc = "desc"
+        private const val EXISTING_ID_DETAIL_STORY = "KDI"
+        private const val NOT_FOUND_ID_DETAIL_STORY = "NOT FOUND"
     }
 
 
@@ -170,6 +172,36 @@ class StoryViewModelTest {
         assertTrue(actualValues is Result.Error)
         assertNull(actualValues.data?.listStory?.get(0)?.lat)
         assertNull(actualValues.data?.listStory?.get(0)?.lon)
+    }
+
+    @Test
+    fun `When get detail story return Result Success`() {
+        val dataDummy = generateSuccessDummyDetailStory()
+        val expectedValues = MutableLiveData<Result<ResponseDetailStory>>()
+        expectedValues.value = Result.Success(dataDummy)
+
+        `when`(storyRepository.getDetailStory(EXISTING_ID_DETAIL_STORY)).thenReturn(expectedValues)
+        val actualValues = storyViewModel.getDetailStory(EXISTING_ID_DETAIL_STORY).getOrAwaitValue()
+        Mockito.verify(storyRepository).getDetailStory(EXISTING_ID_DETAIL_STORY)
+
+        assertNotNull(actualValues)
+        assertTrue(actualValues is Result.Success)
+        assertEquals((expectedValues.value as Result.Success).data?.story, actualValues.data?.story)
+    }
+
+    @Test
+    fun `When get detail story return Result Error`(){
+        val dataDummy = generateErrorDummyDetailStory()
+        val expectedValues = MutableLiveData<Result<ResponseDetailStory>>()
+        expectedValues.value = Result.Error(data = dataDummy, code = 401)
+
+        `when`(storyRepository.getDetailStory(NOT_FOUND_ID_DETAIL_STORY)).thenReturn(expectedValues)
+        val actualValues = storyViewModel.getDetailStory(NOT_FOUND_ID_DETAIL_STORY).getOrAwaitValue()
+        Mockito.verify(storyRepository).getDetailStory(NOT_FOUND_ID_DETAIL_STORY)
+
+        assertNotNull(actualValues)
+        assertTrue(actualValues is Result.Error)
+        assertEquals((expectedValues.value as Result.Error).data?.message, actualValues.data?.message)
     }
 
 }

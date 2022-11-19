@@ -1,7 +1,7 @@
 package com.dicoding.submission_intermediate_storyapp2.util
 
 import com.dicoding.submission_intermediate_storyapp2.model.*
-import java.util.LinkedList
+import java.util.*
 
 
 val ERROR_MESSAGE = "error get data"
@@ -99,6 +99,28 @@ fun generateErrorDummyListStoryLocation(): ResponseListStory {
         error = true,
         message = "Missing authentication",
         listStory = null
+    )
+}
+
+fun generateSuccessDummyDetailStory(): ResponseDetailStory {
+    val dataStory = Story(
+        id = "id",
+        name = "name",
+        description = "description",
+        photoUrl = "photo.jpg",
+        createdAt = "created"
+    )
+    return ResponseDetailStory(
+        error = false,
+        message = "Story fetched successfully",
+        story = dataStory
+    )
+}
+
+fun generateErrorDummyDetailStory(): ResponseDetailStory {
+    return ResponseDetailStory(
+        error = true,
+        message = "Story not found"
     )
 }
 
